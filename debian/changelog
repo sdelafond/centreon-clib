@@ -1,3 +1,10 @@
+centreon-clib (18.10.0-2) unstable; urgency=medium
+
+  * Fix FTCBFS: don't force build architecture compilers; thanks to
+    Helmut Grohne <helmut@subdivi.de> for the patch (Closes: #929762)
+
+ -- Sebastien Delafond <seb@debian.org>  Mon, 03 Jun 2019 07:54:40 +0200
+
 centreon-clib (18.10.0-1) unstable; urgency=medium
 
   * Initial release (Closes: #913899)
