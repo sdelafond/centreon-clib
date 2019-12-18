@@ -1,0 +1,2 @@
+version=3
+https://github.com/centreon/centreon-clib/tags .*/(\d[\d\.]*)\.tar\.gz debian uupdate
