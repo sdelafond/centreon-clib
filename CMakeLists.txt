@@ -1,5 +1,5 @@
 ##
-## Copyright 2011-2014,2018 Centreon
+## Copyright 2011-2014,2018-2019 Centreon
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -19,10 +19,9 @@
 # Global options.
 cmake_minimum_required(VERSION 2.8)
 project("Centreon Clib" C CXX)
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Set directories.
-set(PROJECT_SOURCE_DIR "${PROJECT_SOURCE_DIR}/..")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/inc")
 set(INC_DIR "${INCLUDE_DIR}/com/centreon")
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
@@ -30,7 +29,7 @@ set(SCRIPT_DIR "${PROJECT_SOURCE_DIR}/script")
 
 
 # Version.
-set(CLIB_MAJOR 18)
+set(CLIB_MAJOR 19)
 set(CLIB_MINOR 10)
 set(CLIB_PATCH 0)
 set(CLIB_VERSION "${CLIB_MAJOR}.${CLIB_MINOR}.${CLIB_PATCH}")
@@ -207,7 +206,8 @@ check_include_file_cxx("spawn.h" HAVE_SPAWN_H)
 if (HAVE_SPAWN_H)
   add_definitions(-DHAVE_SPAWN_H)
 else ()
-  message(WARNING "Your plateform does not have spawn.h. Some features might be disabled.")
+  message(WARNING "Your plateform does not have spawn.h. Some features might "
+    "be disabled.")
 endif ()
 
 # Platform-specific files.
@@ -269,7 +269,6 @@ set(
   "${INC_DIR}/namespace.hh"
   "${INC_DIR}/process_manager.hh"
   "${INC_DIR}/process.hh"
-  "${INC_DIR}/shared_ptr.hh"
   "${INC_DIR}/task.hh"
   "${INC_DIR}/task_manager.hh"
   "${INC_DIR}/timestamp.hh"
@@ -283,14 +282,14 @@ include_directories("${INCLUDE_DIR}")
 
 
 # Add subdirectories.
-add_subdirectory("clib")
-add_subdirectory("concurrency")
-add_subdirectory("exceptions")
-add_subdirectory("logging")
-add_subdirectory("misc")
-add_subdirectory("io")
+add_subdirectory(src/clib)
+add_subdirectory(src/concurrency)
+add_subdirectory(src/exceptions)
+add_subdirectory(src/logging)
+add_subdirectory(src/misc)
+add_subdirectory(src/io)
 if (WITH_TESTING)
-  add_subdirectory("test")
+  add_subdirectory(test)
 endif ()
 
 
@@ -366,7 +365,7 @@ install(
 
 
 # Include build package.
-include("package.cmake")
+include(cmake/package.cmake)
 
 # Print summary.
 message(STATUS "")
@@ -385,7 +384,8 @@ message(STATUS "    - Version                   ${CMAKE_SYSTEM_VERSION}")
 message(STATUS "    - Processor                 ${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "")
 message(STATUS "  Build")
-message(STATUS "    - Compiler                  ${CMAKE_CXX_COMPILER} (${CMAKE_CXX_COMPILER_ID})")
+message(STATUS "    - Compiler                  ${CMAKE_CXX_COMPILER} "
+  "(${CMAKE_CXX_COMPILER_ID})")
 message(STATUS "    - Extra compilation flags   ${CMAKE_CXX_FLAGS}")
 message(STATUS "    - Build unit tests          ${UNIT_TEST}")
 message(STATUS "")
